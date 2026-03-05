@@ -1,4 +1,9 @@
 .DS_Store
-Speciale/data/
-data/
+# Ignore the massive Raw folder
+Speciale/data/Raw/
+
+# Keep the processed data folder
+!Speciale/data/processed/
+
+# Other folders you mentioned earlier
 Plots/
