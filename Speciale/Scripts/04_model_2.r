@@ -6,7 +6,7 @@ library(rugarch)
 # 1. Define the model specification
 spec <- ugarchspec(
   variance.model = list(
-    model = "sGARCH", 
+    model = "gjrGARCH", 
     garchOrder = c(1, 1),
     external.regressors = matrix(v_t) # Impact on Volatility
   ),
@@ -15,11 +15,13 @@ spec <- ugarchspec(
     include.mean = TRUE,
     external.regressors = matrix(v_t) # Impact on the Spread itself
   ),
-  distribution.model = "std"          # Student-t distribution for "fat tails"
+  distribution.model = "nig"         # Normal-inverse Gaussian distribution
 )
+#  normal-inverse Gaussian distribution
 
+length(u_t)
 # 2. Estimate the model
-garch_fit <- ugarchfit(spec = spec, data = u_t)
+garch_fit <- ugarchfit(spec = spec, data = u_t, solver = "hybrid")
 
 # 3. View the results
 print(garch_fit)
@@ -27,7 +29,7 @@ print(garch_fit)
 
 
 # Plot the diagnostic graphs
-png(filename = paste0("Speciale/plots/02_model_2/", "model_2.png"), width = 800, height = 800)
+png(filename = paste0("Speciale/plots/04_model_2/", "model_2.png"), width = 800, height = 800)
 plot(garch_fit, which = "all")
 dev.off()
 
@@ -41,7 +43,7 @@ plot_names <- c("Series_with_2SD", "Series_with_VaR", "Conditional_SD",
 # Loop through all 12 available plots
 for (i in 1:12) {
     # Generate a clean filename using the index and the descriptive name
-    file_name <- sprintf("Speciale/plots/02_model_2/%02d_%s.png", i, plot_names[i])
+    file_name <- sprintf("Speciale/plots/04_model_2/%02d_%s.png", i, plot_names[i])
     
     png(filename = file_name, width = 800, height = 600, res = 120)
     
@@ -54,3 +56,5 @@ for (i in 1:12) {
 # Check for remaining ARCH effects (Should be > 0.05)
 # This is the Weighted Ljung-Box Test on Standardized Squared Residuals
 #infocriteria(garch_fit)
+
+

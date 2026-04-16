@@ -13,7 +13,7 @@ summary(model_1)
 
 
 # Plot the relationship
-png(filename = paste0("Speciale/plots/01_model_1/", "model_1.png"), width = 800, height = 800)
+png(filename = paste0("Speciale/plots/03_model_1/", "model_1.png"), width = 800, height = 800)
 
 plot(reg_df$v_t, reg_df$u_t, 
      xlab = "Total Wind Forecast Error (v_t)", 
